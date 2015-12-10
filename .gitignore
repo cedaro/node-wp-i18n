@@ -1,0 +1,4 @@
+.DS_Store
+bin/wpi18n
+node_modules
+npm-debug.log

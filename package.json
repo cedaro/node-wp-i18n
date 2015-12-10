@@ -1,0 +1,38 @@
+{
+  "name": "node-wp-i18n",
+  "version": "0.1.0",
+  "description": "Internationalize WordPress themes and plugins.",
+  "license": "MIT",
+  "homepage": "https://github.com/cedaro/node-wp-i18n",
+  "repository": "cedaro/node-wp-i18n",
+  "author": {
+    "name": "Brady Vercher",
+    "email": "brady@blazersix.com",
+    "url": "http://www.cedaro.com/"
+  },
+  "bin": {
+    "wpi18n-beta": "./bin/wpi18n"
+  },
+  "main": "index.js",
+  "scripts": {
+    "lint": "jshint index.js lib/*.js"
+  },
+  "dependencies": {
+    "async": "^1.5.0",
+    "bluebird": "^3.0.6",
+    "gettext-parser": "^1.1.2",
+    "glob": "^6.0.1",
+    "minimist": "^1.2.0",
+    "mkdirp": "^0.5.1",
+    "mout": "^0.11.1",
+    "underscore": "^1.8.3"
+  },
+  "keywords": [
+    "wordpress",
+    "i18n",
+    "translation"
+  ],
+  "devDependencies": {
+    "jshint": "^2.8.0"
+  }
+}
