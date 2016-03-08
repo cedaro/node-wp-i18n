@@ -1,25 +1,25 @@
 <?php
 require_once( dirname( __FILE__ ) . '/add-textdomain.php' );
 
-class GruntAddTextdomain extends AddTextdomain {
+class NodeAddTextdomain extends AddTextdomain {
 	/**
 	 * List of text domains to update.
 	 *
-	 * @type array
+	 * @var array
 	 */
 	protected $domains_to_update = array();
 
 	/**
 	 * Whether to update all text domains.
 	 *
-	 * @type boolean
+	 * @var boolean
 	 */
 	protected $update_all_domains = false;
 
 	/**
 	 * List of translation functions and the position of the text domain argument.
 	 *
-	 * @type array
+	 * @var array
 	 */
 	protected $domain_positions = array(
 		'__'         => 2,
@@ -120,11 +120,13 @@ class GruntAddTextdomain extends AddTextdomain {
 	 * @param string|array $domains Comma-separated string or array of domains to update.
 	 */
 	public function set_domains_to_update( $domains = array() ) {
-		if ( 'all' === $domains ) {
+		if ( is_string( $domains ) ) {
+			$domains = explode( ',', $domains );
+		}
+
+		if ( in_array( 'all', $domains ) ) {
 			$this->update_all_domains = true;
 			$domains = array();
-		} elseif ( is_string( $domains ) ) {
-			$domains = explode( ',', $domains );
 		}
 
 		// Remove empty items and non-strings.
@@ -139,17 +141,12 @@ class GruntAddTextdomain extends AddTextdomain {
  */
 $included_files = get_included_files();
 if ( __FILE__ == $included_files[0] ) {
-	$adddomain = new GruntAddTextdomain;
+	$args = json_decode( file_get_contents( $argv[1] ), true );
 
-	$inplace = false;
-	if ( '-i' == $argv[1] ) {
-		$inplace = true;
+	$adddomain = new NodeAddTextdomain;
+	$adddomain->set_domains_to_update( $args['update-domains'] );
+
+	foreach ( $args['files'] as $file ) {
+		$adddomain->process_file( $args['textdomain'], $file, ! $args['dry-run'] );
 	}
-
-	// Set text domains to update.
-	if ( isset( $argv[4] ) ) {
-		$adddomain->set_domains_to_update( $argv[4] );
-	}
-
-	$adddomain->process_file( $argv[2], $argv[3], $inplace );
 }
