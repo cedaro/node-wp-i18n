@@ -15,17 +15,17 @@
   },
   "main": "index.js",
   "scripts": {
-    "lint": "jshint index.js lib/*.js"
+    "lint": "jshint index.js lib/*.js",
+    "pretest": "rm -rf tmp && cp -R test/fixtures tmp",
+    "test": "tap test/*.js --cov"
   },
   "dependencies": {
-    "async": "^1.5.0",
     "bluebird": "^3.0.6",
     "gettext-parser": "^1.1.2",
     "glob": "^6.0.1",
+    "lodash": "^4.6.1",
     "minimist": "^1.2.0",
-    "mkdirp": "^0.5.1",
-    "mout": "^0.11.1",
-    "underscore": "^1.8.3"
+    "mkdirp": "^0.5.1"
   },
   "keywords": [
     "wordpress",
@@ -33,6 +33,8 @@
     "translation"
   ],
   "devDependencies": {
-    "jshint": "^2.8.0"
+    "async": "^1.5.2",
+    "jshint": "^2.8.0",
+    "tap": "^5.7.0"
   }
 }
