@@ -20,3 +20,15 @@ test('file exists', function(t) {
   var filename = path.resolve(__dirname, 'fixtures/pot/basic.pot');
   t.equal(util.fileExists(filename), true);
 });
+
+test('spawn a process', function(t) {
+  t.plan(2);
+
+  util.spawn('node', ['-v'])
+    .then(t.pass)
+    .catch(t.threw);
+
+  util.spawn('unknown')
+    .then(t.fail)
+    .catch(t.pass);
+});
