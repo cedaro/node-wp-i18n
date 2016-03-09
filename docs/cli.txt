@@ -1,6 +1,6 @@
-Usage: wpi18n-beta <command> [options]
+Usage: wpi18n <command> [options]
 
-Back up your project before using! This is experimental and will change.
+Back up your project before using! This is still experimental and may change.
 
 Commands:
   addtextdomain           Add a text domain to gettext functions.
