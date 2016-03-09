@@ -1,4 +1,4 @@
-# node-wp-i18n
+# node-wp-i18n [![Build Status](https://travis-ci.org/cedaro/node-wp-i18n.png?branch=develop)](https://travis-ci.org/cedaro/node-wp-i18n)
 
 > Internationalize WordPress plugins and themes.
 
