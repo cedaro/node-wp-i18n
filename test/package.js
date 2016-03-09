@@ -138,9 +138,22 @@ test('get package header', function(t) {
 });
 
 test('get package text domain without header', function(t) {
-  t.plan(1);
+  t.plan(4);
 
   var directory = path.resolve('tmp/packages/plugins/basic-plugin');
   var wpPackage = new WPPackage(directory);
   t.equal(wpPackage.getHeader('Text Domain'), 'basic-plugin');
+
+  // Packages default to the `wp-plugin` type.
+  var directory = path.resolve('tmp/packages/plugins/invalid-plugin');
+  var wpPackage = new WPPackage(directory);
+  t.equal(wpPackage.getHeader('Text Domain'), 'invalid-plugin');
+
+  var directory = path.resolve('tmp/packages/themes/nested-theme/src');
+  var wpPackage = new WPPackage(directory);
+  t.equal(wpPackage.getHeader('Text Domain'), 'nested-theme');
+
+  var directory = path.resolve('tmp/packages/themes/svn-theme/tags/1.0.0');
+  var wpPackage = new WPPackage(directory);
+  t.equal(wpPackage.getHeader('Text Domain'), 'svn-theme');
 });

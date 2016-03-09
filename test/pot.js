@@ -31,7 +31,7 @@ test('parse pot file', function(t) {
 
   var filename = path.resolve('tmp/pot/basic.pot');
   var pot = new Pot(filename);
-  pot = pot.parse();
+  pot = pot.parse().parse();
 
   t.type(pot, 'Pot');
   t.equal(pot.isOpen, true);
@@ -142,7 +142,7 @@ test('save pot file', function(t) {
 
   pot.parse()
     .setFileComment(comment)
-    .save();
+    .save().save();
 
   t.equal(pot.isOpen, false);
 
