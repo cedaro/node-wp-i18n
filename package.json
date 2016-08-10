@@ -20,10 +20,10 @@
     "test": "tap test/*.js --cov"
   },
   "dependencies": {
-    "bluebird": "^3.0.6",
-    "gettext-parser": "^1.1.2",
-    "glob": "^6.0.1",
-    "lodash": "^4.6.1",
+    "bluebird": "^3.4.1",
+    "gettext-parser": "^1.2.0",
+    "glob": "^7.0.5",
+    "lodash": "^4.14.2",
     "minimist": "^1.2.0",
     "mkdirp": "^0.5.1",
     "tmp": "0.0.28"
@@ -34,8 +34,8 @@
     "translation"
   ],
   "devDependencies": {
-    "async": "^1.5.2",
-    "jshint": "^2.8.0",
-    "tap": "^5.7.0"
+    "async": "^2.0.1",
+    "jshint": "^2.9.2",
+    "tap": "^6.3.0"
   }
 }
