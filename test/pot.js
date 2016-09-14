@@ -53,6 +53,31 @@ test('has changed on post creation header update', function(t) {
   t.equal(pot.hasChanged(), false);
 });
 
+test('compare pot file with non-existent pot file', function(t) {
+  t.plan(1);
+
+  var filename = path.resolve('tmp/pot/basic.pot');
+  var pot = new Pot(filename);
+  var fake = new Pot(path.resolve('tmp/pot/fake.pot'));
+
+  pot.parse();
+
+  t.equal(pot.sameAs(fake), false);
+});
+
+test('compare same pot files with different creation date headers', function(t) {
+  t.plan(1);
+
+  var filename = path.resolve('tmp/pot/basic.pot');
+  var pot = new Pot(filename);
+  var pot2 = new Pot(filename);
+
+  pot.parse().setHeader('pot-creation-date', '2003-04-01 14:12:34+00:00');
+  pot2.parse()
+
+  t.equal(pot.sameAs(pot2), true);
+});
+
 test('reset pot creation date', function(t) {
   t.plan(1);
 
