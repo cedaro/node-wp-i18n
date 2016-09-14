@@ -54,7 +54,7 @@ class Translations {
 	 * @param string $value header value, without trailing \n
 	 */
 	public function set_header( $header, $value ) {
-		$this->headers[ $header ] = $value;
+		$this->headers[ $header ] = trim( $value );
 	}
 
 	public function set_headers( $headers ) {
