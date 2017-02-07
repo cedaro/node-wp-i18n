@@ -158,6 +158,20 @@ test('set poedit headers', function(t) {
   t.equal(headers['x-poedit-keywordslist'], '__;_e;_x:1,2c;_ex:1,2c;_n:1,2;_nx:1,2,4c;_n_noop:1,2;_nx_noop:1,2,3c;esc_attr__;esc_html__;esc_attr_e;esc_html_e;esc_attr_x:1,2c;esc_html_x:1,2c;');
 });
 
+test('set poedit headers without overriding existing header values', function(t) {
+  t.plan(1);
+
+  var filename = path.resolve('tmp/pot/basic.pot');
+  var pot = new Pot(filename);
+
+  pot.parse()
+    .setHeader('x-poedit-country', 'Spain')
+    .setHeader('poedit', true);
+
+  var headers = pot.contents.headers;
+  t.equal(headers['x-poedit-country'], 'Spain');
+});
+
 test('save pot file', function(t) {
   t.plan(2);
 
