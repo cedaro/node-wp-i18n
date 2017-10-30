@@ -1,6 +1,6 @@
 {
   "name": "node-wp-i18n",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Internationalize WordPress themes and plugins.",
   "license": "MIT",
   "homepage": "https://github.com/cedaro/node-wp-i18n",
