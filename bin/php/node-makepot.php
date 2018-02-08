@@ -4,7 +4,7 @@ require_once( dirname( __FILE__ ) . '/makepot.php' );
 /**
  * POT generation methods for grunt-wp-i18n.
  */
-class GruntMakePOT extends MakePOT {
+class NodeMakePOT extends MakePOT {
 	/**
 	 * Valid project types.
 	 *
@@ -160,7 +160,7 @@ class GruntMakePOT extends MakePOT {
  */
 $included_files = get_included_files();
 if ( __FILE__ == $included_files[0] ) {
-	$makepot = new GruntMakePOT;
+	$makepot = new NodeMakePOT;
 	$method = str_replace( '-', '_', $argv[1] );
 
 	if ( in_array( count( $argv ), range( 3, 7 ) ) && in_array( $method, get_class_methods( $makepot ) ) ) {
