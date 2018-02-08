@@ -72,16 +72,6 @@ class NotGettexted {
 		return $files;
 	}
 
-	public function make_string_aggregator( $global_array_name, $filename ) {
-		$a = $global_array_name;
-		return create_function( '$string, $comment_id, $line_number', 'global $' . $a . '; $' . $a . '[] = array($string, $comment_id, ' . var_export( $filename, true ) . ', $line_number);' );
-	}
-
-	public function make_mo_replacer( $global_mo_name ) {
-		$m = $global_mo_name;
-		return create_function( '$token, $string', 'global $' . $m . '; return var_export($' . $m . '->translate($string), true);' );
-	}
-
 	public function walk_tokens( &$tokens, $string_action, $other_action, $register_action = null ) {
 
 		$current_comment_id = '';
@@ -158,7 +148,9 @@ class NotGettexted {
 
 		foreach( $filenames as $filename ) {
 			$tokens = token_get_all( file_get_contents( $filename ) );
-			$aggregator = $this->make_string_aggregator( $global_name, $filename );
+			$aggregator = function( $string, $comment_id, $line_number ) use ( $global_name, $filename ) {
+				$GLOBALS[ $global_name ][] = array( $string, $comment_id, var_export( $filename, true ), $line_number );
+			};
 			$this->walk_tokens( $tokens, array( $this, 'ignore_token' ), array( $this, 'ignore_token' ), $aggregator );
 		}
 
@@ -195,8 +187,10 @@ class NotGettexted {
 		}
 
 		$global_name = '__mo_' . mt_rand( 1, 1000 );
-		$GLOBALS[ $global_name ] = new MO();
-		$replacer = $this->make_mo_replacer( $global_name );
+		$mo = $GLOBALS[ $global_name ] = new MO();
+		$replacer = function( $token, $string ) use ( $mo ) {
+			return var_export( $mo->translate( $string ), true );
+		};
 
 		$res = $GLOBALS[ $global_name ]->import_from_file( $mo_filename );
 		if ( false === $res ) {
