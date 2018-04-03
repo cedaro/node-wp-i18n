@@ -12,6 +12,7 @@ var argv = require('minimist')(process.argv.slice(2), {
   string: [
     'domain-path',
     'exclude',
+    'glob-pattern',
     'main-file',
     'pot-file',
     'textdomain',
@@ -42,7 +43,8 @@ if (argv.version) {
 }
 
 if (-1 !== argv._.indexOf('addtextdomain')) {
-  var files = glob.sync('**/*.php');
+  var pattern = argv['glob-pattern'] ? argv['glob-pattern'] : '**/*.php';
+  var files = glob.sync(pattern);
 
   wpi18n.addtextdomain(files, {
     dryRun: argv['dry-run'],
