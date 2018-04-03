@@ -11,6 +11,7 @@ var WPPackage = require('../lib/package');
 var argv = require('minimist')(process.argv.slice(2), {
   string: [
     'domain-path',
+    'exclude',
     'main-file',
     'pot-file',
     'textdomain',
@@ -78,6 +79,7 @@ if (-1 !== argv._.indexOf('makepot')) {
 
   wpi18n.makepot({
     domainPath: argv['domain-path'] ? argv['domain-path'] : '',
+    exclude: argv['exclude'] ? argv['exclude'].split(',') : '',
     mainFile: argv['main-file'] ? argv['main-file'] : '',
     potHeaders: headers,
     potFile: argv['pot-file'] ? argv['pot-file'] : '',
