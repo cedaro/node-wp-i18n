@@ -81,7 +81,7 @@ if (-1 !== argv._.indexOf('makepot')) {
 
   wpi18n.makepot({
     domainPath: argv['domain-path'] ? argv['domain-path'] : '',
-    exclude: argv['exclude'] ? argv['exclude'].split(',') : '',
+    exclude: argv['exclude'] ? argv['exclude'].split(',') : [],
     mainFile: argv['main-file'] ? argv['main-file'] : '',
     potHeaders: headers,
     potFile: argv['pot-file'] ? argv['pot-file'] : '',
