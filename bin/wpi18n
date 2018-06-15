@@ -47,9 +47,19 @@ if (-1 !== argv._.indexOf('addtextdomain')) {
   var files = glob.sync(pattern);
 
   if (argv['exclude']) {
-    var excludePattern = new RegExp( '^(' + argv['exclude'].replace(/,/g, '|') + ')' );
+    var excludePattern = argv['exclude']
+      .split(',')
+      .map(function(string) {
+        // Escape special characters.
+        // @link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions
+        return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      })
+      .join('|');
+
+    var excludeRegExp = new RegExp('^('+excludePattern+')');
+
     files = files.filter(function(file) {
-      return ! excludePattern.test(file);
+      return ! excludeRegExp.test(file);
     });
   }
 
