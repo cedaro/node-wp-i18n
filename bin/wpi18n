@@ -46,6 +46,13 @@ if (-1 !== argv._.indexOf('addtextdomain')) {
   var pattern = argv['glob-pattern'] ? argv['glob-pattern'] : '**/*.php';
   var files = glob.sync(pattern);
 
+  if (argv['exclude']) {
+    var excludePattern = new RegExp( '^(' + argv['exclude'].replace(/,/g, '|') + ')' );
+    files = files.filter(function(file) {
+      return ! excludePattern.test(file);
+    });
+  }
+
   wpi18n.addtextdomain(files, {
     dryRun: argv['dry-run'],
     textdomain: argv.textdomain || '',
