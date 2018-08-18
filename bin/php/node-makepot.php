@@ -23,15 +23,16 @@ class NodeMakePOT extends MakePOT {
 	 * @param string $slug Optional. Plugin slug.
 	 * @param string $excludes Optional. Comma-separated list of exclusion patterns.
 	 * @param string $includes Optional. Comma-separated list of inclusion patterns.
+	 * @param string $main_file Optional. Plugin main {plugin-name}.php file path.
 	 * @return bool
 	 */
-	public function wp_plugin( $dir, $output, $slug = null, $excludes = '', $includes = '' ) {
+	public function wp_plugin( $dir, $output, $slug = null, $excludes = '', $includes = '', $main_file = null ) {
 		if ( is_null( $slug ) ) {
 			// Guess plugin slug.
 			$slug = $this->guess_plugin_slug( $dir );
 		}
 
-		$main_file = $dir . '/' . $slug . '.php';
+		$main_file = $dir . '/' . ( $main_file ? $main_file : $slug . '.php' );
 		$source = $this->get_first_lines( $main_file, $this->max_header_lines );
 		$excludes = $this->normalize_patterns( $excludes );
 		$includes = $this->normalize_patterns( $includes );
@@ -68,15 +69,16 @@ class NodeMakePOT extends MakePOT {
 	 * @param string $slug Optional. Theme slug.
 	 * @param string $excludes Optional. Comma-separated list of exclusion patterns.
 	 * @param string $includes Optional. Comma-separated list of inclusion patterns.
+	 * @param string $main_file Optional. Theme main style.css file path.
 	 * @return bool
 	 */
-	public function wp_theme( $dir, $output, $slug = null, $excludes = '', $includes = '' ) {
+	public function wp_theme( $dir, $output, $slug = null, $excludes = '', $includes = '', $main_file = null ) {
 		if ( is_null( $slug ) ) {
 			// Guess theme slug.
 			$slug = $this->guess_plugin_slug( $dir );
 		}
 
-		$main_file = $dir . '/style.css';
+		$main_file = $dir . '/' . ( $main_file ? $main_file : 'style.css' );
 		$source = $this->get_first_lines( $main_file, $this->max_header_lines );
 		$excludes = $this->normalize_patterns( $excludes );
 		$includes = $this->normalize_patterns( $includes );
@@ -163,14 +165,15 @@ if ( __FILE__ == $included_files[0] ) {
 	$makepot = new NodeMakePOT;
 	$method = str_replace( '-', '_', $argv[1] );
 
-	if ( in_array( count( $argv ), range( 3, 7 ) ) && in_array( $method, get_class_methods( $makepot ) ) ) {
+	if ( in_array( count( $argv ), range( 3, 8 ) ) && in_array( $method, get_class_methods( $makepot ) ) ) {
 		$res = call_user_func(
 			array( $makepot, $method ),         // Method
 			realpath( $argv[2] ),               // Directory
 			isset( $argv[3] )? $argv[3] : null, // Output
 			isset( $argv[4] )? $argv[4] : null, // Slug
 			isset( $argv[5] )? $argv[5] : null, // Excludes
-			isset( $argv[6] )? $argv[6] : null  // Includes
+			isset( $argv[6] )? $argv[6] : null, // Includes
+			isset( $argv[7] )? $argv[7] : null  // Main File
 		);
 
 		if ( false === $res ) {
