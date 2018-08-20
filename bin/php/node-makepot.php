@@ -2,7 +2,7 @@
 require_once( dirname( __FILE__ ) . '/makepot.php' );
 
 /**
- * POT generation methods for grunt-wp-i18n.
+ * POT generation methods for node-wp-i18n.
  */
 class NodeMakePOT extends MakePOT {
 	/**
@@ -21,22 +21,16 @@ class NodeMakePOT extends MakePOT {
 	 * @param string $dir Directory to search for gettext calls.
 	 * @param string $output POT file name.
 	 * @param string $slug Optional. Plugin slug.
+	 * @param string $main_file Optional. Plugin main {plugin-name}.php file path.
 	 * @param string $excludes Optional. Comma-separated list of exclusion patterns.
 	 * @param string $includes Optional. Comma-separated list of inclusion patterns.
-	 * @param string $main_file Optional. Plugin main {plugin-name}.php file path.
 	 * @return bool
 	 */
-	public function wp_plugin( $dir, $output, $slug = null, $excludes = '', $includes = '', $main_file = null ) {
-		if ( is_null( $slug ) ) {
-			// Guess plugin slug.
-			$slug = $this->guess_plugin_slug( $dir );
-		}
-
-		$main_file = $dir . '/' . ( $main_file ? $main_file : $slug . '.php' );
+	public function wp_plugin( $dir, $output, $slug = null, $main_file = null, $excludes = '', $includes = '' ) {
+		$main_file = $dir . '/' . $main_file;
 		$source = $this->get_first_lines( $main_file, $this->max_header_lines );
 		$excludes = $this->normalize_patterns( $excludes );
 		$includes = $this->normalize_patterns( $includes );
-		$output = is_null( $output )? "$slug.pot" : $output;
 
 		$placeholders = array();
 		$placeholders['version'] = $this->get_addon_header( 'Version', $source );
@@ -67,22 +61,16 @@ class NodeMakePOT extends MakePOT {
 	 * @param string $dir Directory to search for gettext calls.
 	 * @param string $output POT file name.
 	 * @param string $slug Optional. Theme slug.
+	 * @param string $main_file Optional. Theme main style.css file path.
 	 * @param string $excludes Optional. Comma-separated list of exclusion patterns.
 	 * @param string $includes Optional. Comma-separated list of inclusion patterns.
-	 * @param string $main_file Optional. Theme main style.css file path.
 	 * @return bool
 	 */
-	public function wp_theme( $dir, $output, $slug = null, $excludes = '', $includes = '', $main_file = null ) {
-		if ( is_null( $slug ) ) {
-			// Guess theme slug.
-			$slug = $this->guess_plugin_slug( $dir );
-		}
-
-		$main_file = $dir . '/' . ( $main_file ? $main_file : 'style.css' );
+	public function wp_theme( $dir, $output, $slug = null, $main_file = null, $excludes = '', $includes = '' ) {
+		$main_file = $dir . '/' . $main_file;
 		$source = $this->get_first_lines( $main_file, $this->max_header_lines );
 		$excludes = $this->normalize_patterns( $excludes );
 		$includes = $this->normalize_patterns( $includes );
-		$output = is_null( $output )? "$slug.pot" : $output;
 
 		$placeholders = array();
 		$placeholders['version'] = $this->get_addon_header( 'Version', $source );
@@ -157,33 +145,22 @@ class NodeMakePOT extends MakePOT {
 
 /**
  * CLI interface.
- *
- * Run the CLI only if the file wasn't included.
  */
-$included_files = get_included_files();
-if ( __FILE__ == $included_files[0] ) {
-	$makepot = new NodeMakePOT;
-	$method = str_replace( '-', '_', $argv[1] );
+$makepot = new NodeMakePOT;
+$method = str_replace( '-', '_', $argv[1] );
 
-	if ( in_array( count( $argv ), range( 3, 8 ) ) && in_array( $method, get_class_methods( $makepot ) ) ) {
-		$res = call_user_func(
-			array( $makepot, $method ),         // Method
-			realpath( $argv[2] ),               // Directory
-			isset( $argv[3] )? $argv[3] : null, // Output
-			isset( $argv[4] )? $argv[4] : null, // Slug
-			isset( $argv[5] )? $argv[5] : null, // Excludes
-			isset( $argv[6] )? $argv[6] : null, // Includes
-			isset( $argv[7] )? $argv[7] : null  // Main File
-		);
+if ( in_array( count( $argv ), range( 3, 8 ) ) && in_array( $method, get_class_methods( $makepot ) ) ) {
+	$res = call_user_func(
+		array( $makepot, $method ), // Method
+		realpath( $argv[2] ),       // Directory
+		$argv[3],                   // Output
+		$argv[4],                   // Slug
+		$argv[5],                   // Main File
+		$argv[6],                   // Excludes
+		$argv[7]                    // Includes
+	);
 
-		if ( false === $res ) {
-			fwrite( STDERR, "Couldn't generate POT file!\n" );
-		}
-	} else {
-		$usage  = "Usage: php grunt-makepot.php PROJECT DIRECTORY [OUTPUT] [SLUG] [EXCLUDE] [INCLUDE]\n\n";
-		$usage .= "Generate POT file from the files in DIRECTORY [OUTPUT]\n";
-		$usage .= "Available projects: " . implode( ', ', $makepot->projects ) . "\n";
-		fwrite( STDERR, $usage);
-		exit( 1 );
+	if ( false === $res ) {
+		fwrite( STDERR, "Could not generate POT file!\n" );
 	}
 }
