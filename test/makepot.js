@@ -41,6 +41,9 @@ test('makepot no changes', function(t) {
 
   makepot({
     cwd: path.resolve('tmp/makepot/plugin-with-pot'),
+    potHeaders: {
+      'x-generator': 'node-wp-i18n'
+    },
     updateTimestamp: false
   }).then(function() {
     t.ok(fs.statSync(potFilename));

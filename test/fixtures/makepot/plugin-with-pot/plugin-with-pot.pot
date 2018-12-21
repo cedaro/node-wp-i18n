@@ -11,6 +11,7 @@ msgstr ""
 "PO-Revision-Date: 2018-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+"X-Generator: node-wp-i18n\n"
 
 #. Plugin Name of the plugin/theme
 msgid "Example Plugin"
