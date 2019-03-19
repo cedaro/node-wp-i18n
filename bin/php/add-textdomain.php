@@ -34,12 +34,15 @@ class AddTextdomain {
 	 * @param bool   $inplace         True to modifies the PHP file in place. False to print to standard output.
 	 */
 	public function process_file( $domain, $source_filename, $inplace ) {
-		$new_source = $this->process_string( $domain, file_get_contents( $source_filename ) );
+		$old_source = file_get_contents( $source_filename );
+		$new_source = $this->process_string( $domain, $old_source );
 
 		if ($inplace) {
-			$f = fopen( $source_filename, 'w' );
-			fwrite( $f, $new_source );
-			fclose( $f );
+			if ($old_source !== $new_source) {
+				$f = fopen( $source_filename, 'w' );
+				fwrite( $f, $new_source );
+				fclose( $f );
+			}
 		} else {
 			echo $new_source;
 		}
