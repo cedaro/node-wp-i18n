@@ -1,5 +1,4 @@
-# Copyright (C) 2018
-# This file is distributed under the same license as the Example Plugin package.
+# Copyright
 msgid ""
 msgstr ""
 "Project-Id-Version: Example Plugin\n"

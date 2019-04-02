@@ -41,6 +41,7 @@ test('makepot no changes', function(t) {
 
   makepot({
     cwd: path.resolve('tmp/makepot/plugin-with-pot'),
+    potComments: 'Copyright',
     potHeaders: {
       'x-generator': 'node-wp-i18n'
     },
