@@ -22,7 +22,8 @@ var argv = require('minimist')(process.argv.slice(2), {
     'dry-run',
     'help',
     'poedit',
-    'version'
+    'version',
+    'update-po-files'
   ],
   alias: {
     h: 'help',
@@ -103,7 +104,8 @@ if (-1 !== argv._.indexOf('makepot')) {
     potHeaders: headers,
     potFile: argv['pot-file'] ? argv['pot-file'] : '',
     type: argv.type ? 'wp-' + argv.type.replace('wp-', '') : '',
-    updateTimestamp: false
+    updateTimestamp: false,
+    updatePoFiles: argv['update-po-files']
   }).then(function() {
 
   });
