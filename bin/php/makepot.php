@@ -8,6 +8,15 @@ if ( ! defined( 'STDERR' ) ) {
 }
 
 class MakePOT {
+
+	/**
+	 * Supported from PHP 7.4
+	 * @var StringExtractor
+	 */
+	//private StringExtractor $extractor;
+
+	private $extractor;
+
 	public $max_header_lines = 30;
 
 	public $projects = array(
