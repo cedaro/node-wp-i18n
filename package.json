@@ -17,15 +17,15 @@
   "scripts": {
     "lint": "jshint index.js lib/*.js",
     "pretest": "rm -rf tmp && cp -R test/fixtures tmp",
-    "test": "tap test/*.js --cov"
+    "test": "tap test/*.js -- --cov"
   },
   "dependencies": {
     "bluebird": "^3.4.1",
-    "gettext-parser": "^3.1.0",
-    "glob": "^7.0.5",
+    "gettext-parser": "^3.1.1",
+    "glob": "^11.0.3",
     "lodash": "^4.14.2",
     "minimist": "^1.2.5",
-    "mkdirp": "^1.0.4",
+    "mkdirp": "^3.0.1",
     "tmp": "^0.2.1"
   },
   "keywords": [
@@ -36,6 +36,6 @@
   "devDependencies": {
     "async": "^3.2.0",
     "jshint": "^2.9.2",
-    "tap": "^14.11.0"
+    "tap": "^21.1.0"
   }
 }
